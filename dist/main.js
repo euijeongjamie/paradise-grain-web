@@ -359,7 +359,9 @@ narrow.addEventListener('change', () => requestAnimationFrame(() => setEpisode(a
 new ResizeObserver(() => schedule(true)).observe(document.querySelector('main'));
 const prepareIngredientPhotos = new IntersectionObserver((entries, observer) => {
   if (!entries.some((entry) => entry.isIntersecting)) return;
-  ingredientPhotos.forEach((photo) => photo.firstElementChild.decode().catch(() => {}));
+  ingredientPhotos.forEach((photo) => {
+    photo.querySelectorAll('img').forEach((image) => image.decode().catch(() => {}));
+  });
   observer.disconnect();
 }, { rootMargin: '150% 0px' });
 prepareIngredientPhotos.observe(ingredients);
